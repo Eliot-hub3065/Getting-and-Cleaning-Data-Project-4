@@ -29,7 +29,7 @@ test_subj <- read.table("./GetCleanDataProj4/UCI HAR Dataset/test/subject_test.t
 features <- read.table("./GetCleanDataProj4/UCI HAR Dataset/features.txt")
                          
 # Read activity labels
-activ_labels <- read.table("./GetCleanDataProj4/UCI HAR Dataset/activity_labels.txt")
+activityLabels <- read.table("./GetCleanDataProj4/UCI HAR Dataset/activity_labels.txt")
                          
 # Assign variable names
 colnames(train_value) <- features[,2]
@@ -40,7 +40,7 @@ colnames(test_value) <- features[,2]
 colnames(test_activ) <- "activityID"
 colnames(test_subj) <- "subjectID"
                          
-colnames(activ_labels) <- c("activityID", "activityType")
+colnames(activityLabels) <- c("activityID", "activityType")
                          
 # 1. Merges the training and the test sets to create one data set.
                          
@@ -51,19 +51,19 @@ mergedAll <- rbind(mergedTrain, mergedTest)
 # 2. Extracts only the measurements on the mean and standard deviation for each measurement.
                          
 colNames <- colnames(mergedAll)
-MeanSd <- (grepl("activityID", colNames) | grepl("subjectID", colNames) | grepl("mean..", colNames) | grepl("std...", colNames))
-setMeanSd <- mergedAll[, MeanSd == TRUE]
+mean_sd <- (grepl("activityID", colNames) | grepl("subjectID", colNames) | grepl("mean..", colNames) | grepl("std...", colNames))
+setforMeanandStd <- mergedAll[, mean_sd == TRUE]
     
 # 3. Uses descriptive activity names to name the activities in the data set
-    
-setWithActivityNames = merge(setMeanSd, activ_labels, by = "activityID", all.x = TRUE)
+
+setWithActivityNames <- merge(setforMeanandStd, activityLabels, by = "activityID", all.x = TRUE)
     
 # 4. Appropriately labels the data set with descriptive variable names.
     
-    ## Descriptive variable names "setMeanSd and mergedAll
+    # Descriptive variable names "set_Mean_Sd and mergedAll
     
 # 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject
     
-secondTidySet <- aggregate(. ~subjectID + activityID, setWithActivityNames, mean)
-secondTidySet <- tidySet[order(tidySet$subjectID, tidySet$activityID), ]
-write.table(secondTidySet, "secondTidySet.txt", row.names = FALSE)
+tidy2Set <- aggregate(. ~subjectID + activityID, setWithActivityNames, mean)
+tidy2Set <- tidy2Set[order(tidy2Set$subjectID, tidy2Set$activityID), ]
+write.table(tidy2Set, "tidy_Set.txt", row.names = FALSE)
