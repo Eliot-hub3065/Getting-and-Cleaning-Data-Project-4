@@ -37,6 +37,6 @@ E.  From the data set in step 4, creates a second, independent tidy data set wit
 F.  Write a second tidy data set in txt file
 
 About variables:
-train_value, train_activ, train_subj, test_value, test_activ and test_subj contain the data from the downloaded files.
+X_train, Y_train, Sub_train, X_test, Y_test and Sub_test contain the data from the downloaded files.
 x_data, y_data and subject_data merge the previous datasets to further analysis.
 features contains the correct names for the x_data dataset, which are applied to the column names stored in
